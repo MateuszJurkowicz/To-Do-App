@@ -3,12 +3,32 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:To_Do_App.Pages"
+      xmlns:local="clr-namespace:To_Do_App.Pages" xmlns:locall="clr-namespace:To_Do_App.Controls"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="WorkTasksPage">
 
     <Grid>
-        
+        <StackPanel HorizontalAlignment="Center">
+            <TextBlock Text="To są twoje zadania"/>
+            <ScrollViewer Height="300">
+                <ItemsControl ItemsSource="{Binding WorkTasks}" Margin="0 10 0 10">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <locall:WorkTask/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+            <TextBlock Text="Tytuł zadania"/>
+            <TextBox Text="{Binding NewWorkTaskTitle, Mode=TwoWay}"/>
+            <TextBlock Text="Opis zadania"/>
+            <TextBox Text="{Binding NewWorkTaskDescription, Mode=TwoWay}"/>
+            <StackPanel Orientation="Horizontal">
+                <Button Command="{Binding AddNewTaskCommand}" Content="Dodaj"/>
+                <Button Command="{Binding DeleteSelectedTasksCommand}" Content="Usuń"/>
+            </StackPanel>
+        </StackPanel>
+
     </Grid>
 </Page>
