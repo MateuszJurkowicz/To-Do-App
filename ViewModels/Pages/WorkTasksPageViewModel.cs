@@ -38,8 +38,6 @@ namespace To_Do_App.ViewModels.Pages
             NewWorkTaskTitle = string.Empty;
             NewWorkTaskDescription = string.Empty;
 
-            OnPropertyChanged(nameof(NewWorkTaskTitle));
-            OnPropertyChanged(nameof(NewWorkTaskDescription));
         }
 
         private void DeleteSelectedTasks()
