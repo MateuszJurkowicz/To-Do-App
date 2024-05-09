@@ -3,7 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:To_Do_App.Pages" xmlns:locall="clr-namespace:To_Do_App.Controls"
+    xmlns:local="clr-namespace:To_Do_App.Controls"
       mc:Ignorable="d" 
       d:DesignHeight="500" d:DesignWidth="800"
       Title="WorkTasksPage">
@@ -15,7 +15,7 @@
                 <ItemsControl ItemsSource="{Binding WorkTasks}" Margin="0 10 0 10">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <locall:WorkTask/>
+                            <local:WorkTask/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
@@ -35,9 +35,9 @@
                         Style="{StaticResource DefaultButtonStyle}"
                         Content="Dodaj"/>
                 <Button Command="{Binding DeleteSelectedTasksCommand}"
-                        Grid.Column="1"
                         Style="{StaticResource DefaultButtonStyle}"
-                        Content="Usuń"/>
+                        Content="Usuń" Grid.Column="1"
+                        Background="Red"/>
             </Grid>
         </StackPanel>
 

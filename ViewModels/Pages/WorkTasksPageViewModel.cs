@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using To_Do_App.Data;
 using To_Do_App.Helpers;
 using To_Do_App.ViewModels.Base;
 using To_Do_App.ViewModels.Controls;
@@ -15,7 +17,7 @@ namespace To_Do_App.ViewModels.Pages
 {
     public class WorkTasksPageViewModel : BaseViewModel
     {
-        public ObservableCollection<WorkTaskViewModel> WorkTasks { get; set; } = new ObservableCollection<WorkTaskViewModel>();
+        public ObservableCollection<WorkTaskViewModel> WorkTasks { get; set; }
         public string NewWorkTaskTitle {  get; set; }
         public string NewWorkTaskDescription { get; set; }
         public ICommand AddNewTaskCommand { get; set; }
@@ -23,6 +25,10 @@ namespace To_Do_App.ViewModels.Pages
 
         public WorkTasksPageViewModel()
         {
+            using (var db = new ToDoAppDb())
+            {
+                WorkTasks = new ObservableCollection<WorkTaskViewModel>(db.WorkTasks.ToList());
+            }
             AddNewTaskCommand = new RelayCommand(AddNewTask);
             DeleteSelectedTasksCommand = new RelayCommand(DeleteSelectedTasks);
         }
@@ -34,7 +40,11 @@ namespace To_Do_App.ViewModels.Pages
                 Description = NewWorkTaskDescription,
                 CreatedDate = DateTime.Now
             };
-            WorkTasks.Add(newTask);
+            using (var db = new ToDoAppDb())
+            {
+                db.WorkTasks.Add(newTask);
+                db.SaveChanges();
+            }
             NewWorkTaskTitle = string.Empty;
             NewWorkTaskDescription = string.Empty;
 

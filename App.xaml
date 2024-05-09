@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:To_Do_App"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <ResourceDictionary Source="Styles/Buttons.xaml"/>
+        <ResourceDictionary Source="Styles/DefaultStyles.xaml"/>
 
     </Application.Resources>
 </Application>
