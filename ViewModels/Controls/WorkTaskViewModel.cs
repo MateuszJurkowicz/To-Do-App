@@ -12,7 +12,7 @@ namespace To_Do_App.ViewModels.Controls
         public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public DateOnly? FinishDate { get; set; }
         public bool IsSelected { get; set; }
     }
 }

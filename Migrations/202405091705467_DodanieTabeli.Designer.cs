@@ -7,13 +7,13 @@ namespace To_Do_App.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class dodanie_tabeli_WorkTasks : IMigrationMetadata
+    public sealed partial class DodanieTabeli : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(dodanie_tabeli_WorkTasks));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(DodanieTabeli));
         
         string IMigrationMetadata.Id
         {
-            get { return "202405091607369_dodanie_tabeli_WorkTasks"; }
+            get { return "202405091705467_DodanieTabeli"; }
         }
         
         string IMigrationMetadata.Source
