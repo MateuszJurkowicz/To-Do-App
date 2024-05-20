@@ -1,15 +1,9 @@
 ﻿using System;
-using System.CodeDom;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using To_Do_App.Controls;
 using To_Do_App.Data;
+using To_Do_App.Data.Entities;
 using To_Do_App.Helpers;
 using To_Do_App.ViewModels.Base;
 using To_Do_App.ViewModels.Controls;
@@ -19,22 +13,37 @@ namespace To_Do_App.ViewModels.Pages
     public class WorkTasksPageViewModel : BaseViewModel
     {
         public ObservableCollection<WorkTaskViewModel> WorkTasks { get; set; }
-        public string NewWorkTaskTitle {  get; set; }
+        public string NewWorkTaskTitle { get; set; }
         public string NewWorkTaskDescription { get; set; }
-        public DateOnly? NewWorkTaskFinishDate { get; set; }
+        public DateTime? NewWorkTaskFinishDate { get; set; } // Zmiana na DateTime
         public ICommand AddNewTaskCommand { get; set; }
         public ICommand DeleteSelectedTasksCommand { get; set; }
 
+        private readonly ToDoAppDbContext _context;
+
         public WorkTasksPageViewModel()
         {
-            using (var db = new ToDoAppDb())
-            {
-                WorkTasks = new ObservableCollection<WorkTaskViewModel>(db.WorkTasks.ToList());
-            }
+            _context = new ToDoAppDbContext();
+            LoadTasks();
+
             AddNewTaskCommand = new RelayCommand(AddNewTask);
             DeleteSelectedTasksCommand = new RelayCommand(DeleteSelectedTasks);
         }
-        private void AddNewTask() 
+
+        private void LoadTasks()
+        {
+            var tasks = _context.WorkTasks.ToList();
+            WorkTasks = new ObservableCollection<WorkTaskViewModel>(tasks.Select(task => new WorkTaskViewModel
+            {
+                Id = task.Id,
+                Title = task.Title,
+                Description = task.Description,
+                FinishDate = task.FinishDate.HasValue ? task.FinishDate.Value : (DateTime?)null,
+                IsSelected = false
+            }));
+        }
+
+        private void AddNewTask()
         {
             var newTask = new WorkTaskViewModel
             {
@@ -42,29 +51,50 @@ namespace To_Do_App.ViewModels.Pages
                 Description = NewWorkTaskDescription,
                 FinishDate = NewWorkTaskFinishDate
             };
-            using (var db = new ToDoAppDb())
+
+            // Dodaj nowy task do bazy danych
+            var taskEntity = new WorkTask
             {
-                db.WorkTasks.Add(newTask);
-                db.SaveChanges();
-                WorkTasks = new ObservableCollection<WorkTaskViewModel>(db.WorkTasks.ToList());
-            }
+                Title = newTask.Title,
+                Description = newTask.Description,
+                FinishDate = newTask.FinishDate
+            };
+
+            _context.WorkTasks.Add(taskEntity);
+            _context.SaveChanges();
+
+            // Dodaj nowy task do kolekcji w UI
+            newTask.Id = taskEntity.Id;
+            WorkTasks.Add(newTask);
+
+            // Wyczyść pola
             NewWorkTaskTitle = string.Empty;
             NewWorkTaskDescription = string.Empty;
             NewWorkTaskFinishDate = null;
 
-
+            OnPropertyChanged(nameof(NewWorkTaskTitle));
+            OnPropertyChanged(nameof(NewWorkTaskDescription));
+            OnPropertyChanged(nameof(NewWorkTaskFinishDate));
         }
 
         private void DeleteSelectedTasks()
         {
-            
-            using (var db = new ToDoAppDb())
-            {
-                db.WorkTasks.RemoveRange(WorkTasks.Where(x => x.IsSelected));
-                db.SaveChanges();
-                WorkTasks = new ObservableCollection<WorkTaskViewModel>(db.WorkTasks.ToList());
-            }
-        }
+            var selectedTasks = WorkTasks.Where(t => t.IsSelected).ToList();
 
+            foreach (var task in selectedTasks)
+            {
+                // Usuń z bazy danych
+                var taskEntity = _context.WorkTasks.Find(task.Id);
+                if (taskEntity != null)
+                {
+                    _context.WorkTasks.Remove(taskEntity);
+                }
+
+                // Usuń z kolekcji w UI
+                WorkTasks.Remove(task);
+            }
+
+            _context.SaveChanges();
+        }
     }
 }

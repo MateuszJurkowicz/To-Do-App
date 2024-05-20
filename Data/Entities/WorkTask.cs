@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using To_Do_App.ViewModels.Base;
 
-namespace To_Do_App.ViewModels.Controls
+namespace To_Do_App.Data.Entities
 {
-    public class WorkTaskViewModel : BaseViewModel
+    public class WorkTask
     {
         public int Id { get; set; }
         public string Title { get; set; }

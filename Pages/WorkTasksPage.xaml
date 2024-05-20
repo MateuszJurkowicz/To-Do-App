@@ -16,15 +16,15 @@
 
         <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300">
             <TextBlock Text="Tytuł zadania"/>
-            <TextBox Text="{Binding NewWorkTaskTitle, Mode=TwoWay}"
+            <TextBox Text="{Binding NewWorkTaskTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      Style="{StaticResource DefaultBoxStyle}"/>
             <TextBlock Text="Opis zadania"/>
-            <TextBox Text="{Binding NewWorkTaskDescription, Mode=TwoWay}"
+            <TextBox Text="{Binding NewWorkTaskDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      Style="{StaticResource DefaultBoxStyle}"/>
             <TextBlock Text="Data realizacji zadania"/>
-            <DatePicker Text="{Binding NewWorkTaskFinishDate, Mode=TwoWay}"
+            <DatePicker SelectedDate="{Binding NewWorkTaskFinishDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         Margin="0 10"/>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment    ="Center">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Command="{Binding AddNewTaskCommand}"
                         Style="{StaticResource DefaultButtonStyle}"
                         Content="Dodaj"/>
@@ -47,6 +47,5 @@
                 </ItemsControl>
             </ScrollViewer>
         </StackPanel>
-        
     </Grid>
 </Page>
