@@ -43,7 +43,12 @@
         </StackPanel>
 
         <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Text="To są twoje zadania" FontSize="18" HorizontalAlignment="Center"/>
+            <TextBlock Text="To są Twoje zadania" 
+                       FontSize="24" 
+                       FontWeight="Bold" 
+                       Foreground="White" 
+                       Margin="0,20" 
+                       HorizontalAlignment="Center"/>
             <ScrollViewer Width="300" Height="300">
                 <ItemsControl ItemsSource="{Binding WorkTasks}">
                     <ItemsControl.ItemTemplate>

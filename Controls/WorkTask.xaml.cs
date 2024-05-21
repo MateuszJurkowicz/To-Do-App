@@ -1,7 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
+using To_Do_App.ViewModels;
+using To_Do_App.ViewModels.Controls;
 
 namespace To_Do_App.Controls
 {
@@ -20,6 +21,15 @@ namespace To_Do_App.Controls
         private void Border_MouseLeave(object sender, MouseEventArgs e)
         {
             this.Cursor = Cursors.Arrow;
+        }
+
+        private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var viewModel = DataContext as WorkTaskViewModel;
+            if (viewModel != null)
+            {
+                viewModel.IsSelected = !viewModel.IsSelected;
+            }
         }
     }
 }
