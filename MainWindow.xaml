@@ -8,5 +8,5 @@
         MinHeight="400"
         MinWidth="600"
         Title="To Do App" Height="450" Width="800">
-        <local:WorkTasksPage />
+    <local:WorkTasksPage />
 </Window>

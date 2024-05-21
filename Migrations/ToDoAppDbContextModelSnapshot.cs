@@ -46,7 +46,7 @@ namespace To_Do_App.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("WorkTasks");
+                    b.ToTable("WorkTasks", (string)null);
                 });
 #pragma warning restore 612, 618
         }

@@ -8,10 +8,8 @@
         <Setter Property="FontSize" Value="16"/>
         <Setter Property="Margin" Value="2"/>
         <Setter Property="Cursor" Value="Hand"/>
-
-
     </Style>
-    
+
     <Style TargetType="{x:Type TextBox}" x:Key="DefaultBoxStyle">
         <Setter Property="Padding" Value="8"/>
         <Setter Property="Margin" Value="0 10"/>
@@ -20,7 +18,18 @@
     </Style>
 
     <Style TargetType="{x:Type TextBlock}" x:Key="DefaultBlockStyle">
-        
+
+    </Style>
+
+    <Style TargetType="{x:Type Grid}" x:Key="DefaultGridStyle">
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#FF6699CC" Offset="0"/>
+                    <GradientStop Color="#FF336699" Offset="1"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
     </Style>
 
 </ResourceDictionary>
