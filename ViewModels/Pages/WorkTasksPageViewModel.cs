@@ -17,8 +17,10 @@ namespace To_Do_App.ViewModels.Pages
         public string NewWorkTaskDescription { get; set; }
         public DateTime? NewWorkTaskFinishDate { get; set; } // Zmiana na DateTime
         public ICommand AddNewTaskCommand { get; set; }
+        public ICommand EditTaskCommand { get; set; }
         public ICommand DeleteSelectedTasksCommand { get; set; }
 
+        private WorkTaskViewModel _currentEditingTask;
         private readonly ToDoAppDbContext _context;
 
         public WorkTasksPageViewModel()
@@ -27,8 +29,10 @@ namespace To_Do_App.ViewModels.Pages
             LoadTasks();
 
             AddNewTaskCommand = new RelayCommand(AddNewTask);
+            EditTaskCommand = new RelayCommand(EditTask);
             DeleteSelectedTasksCommand = new RelayCommand(DeleteSelectedTasks);
         }
+
 
         private void LoadTasks()
         {
@@ -42,6 +46,17 @@ namespace To_Do_App.ViewModels.Pages
                 IsSelected = false
             }));
         }
+        public void LoadTaskToEdit(WorkTaskViewModel task)
+        {
+            _currentEditingTask = task;
+            NewWorkTaskTitle = task.Title;
+            NewWorkTaskDescription = task.Description;
+            NewWorkTaskFinishDate = task.FinishDate;
+
+            OnPropertyChanged(nameof(NewWorkTaskTitle));
+            OnPropertyChanged(nameof(NewWorkTaskDescription));
+            OnPropertyChanged(nameof(NewWorkTaskFinishDate));
+        }
 
         private void AddNewTask()
         {
@@ -52,7 +67,6 @@ namespace To_Do_App.ViewModels.Pages
                 FinishDate = NewWorkTaskFinishDate
             };
 
-            // Dodaj nowy task do bazy danych
             var taskEntity = new WorkTask
             {
                 Title = newTask.Title,
@@ -63,9 +77,39 @@ namespace To_Do_App.ViewModels.Pages
             _context.WorkTasks.Add(taskEntity);
             _context.SaveChanges();
 
-            // Dodaj nowy task do kolekcji w UI
             newTask.Id = taskEntity.Id;
             WorkTasks.Add(newTask);
+
+            NewWorkTaskTitle = string.Empty;
+            NewWorkTaskDescription = string.Empty;
+            NewWorkTaskFinishDate = null;
+
+            OnPropertyChanged(nameof(NewWorkTaskTitle));
+            OnPropertyChanged(nameof(NewWorkTaskDescription));
+            OnPropertyChanged(nameof(NewWorkTaskFinishDate));
+        }
+
+        private void EditTask()
+        {
+            if (_currentEditingTask == null) return;
+
+            _currentEditingTask.Title = NewWorkTaskTitle;
+            _currentEditingTask.Description = NewWorkTaskDescription;
+            _currentEditingTask.FinishDate = NewWorkTaskFinishDate;
+
+            // Zaktualizuj zadanie w bazie danych
+            var taskEntity = _context.WorkTasks.Find(_currentEditingTask.Id);
+            if (taskEntity != null)
+            {
+                taskEntity.Title = _currentEditingTask.Title;
+                taskEntity.Description = _currentEditingTask.Description;
+                taskEntity.FinishDate = _currentEditingTask.FinishDate;
+
+                _context.SaveChanges();
+            }
+
+            // Wyczyść bieżące edytowane zadanie
+            _currentEditingTask = null;
 
             // Wyczyść pola
             NewWorkTaskTitle = string.Empty;
@@ -77,20 +121,19 @@ namespace To_Do_App.ViewModels.Pages
             OnPropertyChanged(nameof(NewWorkTaskFinishDate));
         }
 
+
         private void DeleteSelectedTasks()
         {
             var selectedTasks = WorkTasks.Where(t => t.IsSelected).ToList();
 
             foreach (var task in selectedTasks)
             {
-                // Usuń z bazy danych
                 var taskEntity = _context.WorkTasks.Find(task.Id);
                 if (taskEntity != null)
                 {
                     _context.WorkTasks.Remove(taskEntity);
                 }
 
-                // Usuń z kolekcji w UI
                 WorkTasks.Remove(task);
             }
 

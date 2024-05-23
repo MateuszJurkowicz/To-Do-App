@@ -5,23 +5,18 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:To_Do_App.Controls"
       mc:Ignorable="d" 
-      d:DesignHeight="500" d:DesignWidth="800"
-      Title="WorkTasksPage">
+      d:DesignHeight="600" d:DesignWidth="900"
+      Title="WorkTasksPage"
+      DataContext="{Binding RelativeSource={RelativeSource Self}}">
 
-    <Grid>
-        <Grid.Background>
-            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                <GradientStop Color="#FF6699CC" Offset="0"/>
-                <GradientStop Color="#FF336699" Offset="1"/>
-            </LinearGradientBrush>
-        </Grid.Background>
+    <Grid Style="{StaticResource DefaultGridStyle}">
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300">
+        <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Text="Tytuł zadania"/>
             <TextBox Text="{Binding NewWorkTaskTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      Style="{StaticResource DefaultBoxStyle}"/>
@@ -35,6 +30,10 @@
                 <Button Command="{Binding AddNewTaskCommand}"
                         Style="{StaticResource DefaultButtonStyle}"
                         Content="Dodaj"/>
+                <Button Command="{Binding EditTaskCommand}"
+                        Style="{StaticResource DefaultButtonStyle}"
+                        Content="Zapisz"
+                        Background="Blue"/>
                 <Button Command="{Binding DeleteSelectedTasksCommand}"
                         Style="{StaticResource DefaultButtonStyle}"
                         Content="Usuń"
