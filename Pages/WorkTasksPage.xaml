@@ -17,12 +17,18 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Text="Twórz i modyfikuj zadania" 
+                       FontSize="24" 
+                       FontWeight="Bold" 
+                       Foreground="White" 
+                       Margin="0,20" 
+                       HorizontalAlignment="Center"/>
             <TextBlock Text="Tytuł zadania"/>
             <TextBox Text="{Binding NewWorkTaskTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      Style="{StaticResource DefaultBoxStyle}"/>
             <TextBlock Text="Opis zadania"/>
             <TextBox Text="{Binding NewWorkTaskDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     Style="{StaticResource DefaultBoxStyle}"/>
+                     Style="{StaticResource DefaultBoxStyle}" Height="100" TextWrapping="Wrap"/>
             <TextBlock Text="Data realizacji zadania"/>
             <DatePicker SelectedDate="{Binding NewWorkTaskFinishDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         Margin="0 10"/>
@@ -48,7 +54,7 @@
                        Foreground="White" 
                        Margin="0,20" 
                        HorizontalAlignment="Center"/>
-            <ScrollViewer Width="300" Height="300">
+            <ScrollViewer Width="400" Height="400">
                 <ItemsControl ItemsSource="{Binding WorkTasks}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
