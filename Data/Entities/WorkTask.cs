@@ -12,5 +12,6 @@ namespace To_Do_App.Data.Entities
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTime? FinishDate { get; set; }
+        public bool IsImportant { get; set; }
     }
 }

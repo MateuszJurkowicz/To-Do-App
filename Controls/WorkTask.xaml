@@ -19,8 +19,17 @@
         </Storyboard>
     </UserControl.Resources>
 
-    <Border x:Name="taskBorder" BorderBrush="LightGray" BorderThickness="1" CornerRadius="5" Margin="5" Background="Transparent"
-        MouseEnter="Border_MouseEnter" MouseLeave="Border_MouseLeave" MouseLeftButtonDown="Border_MouseLeftButtonDown">
+    <Border x:Name="taskBorder" BorderBrush="LightGray" BorderThickness="1" CornerRadius="5" Margin="5" Background="White"
+            MouseEnter="Border_MouseEnter" MouseLeave="Border_MouseLeave" MouseLeftButtonDown="Border_MouseLeftButtonDown">
+        <Border.Style>
+            <Style TargetType="Border">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsImportant}" Value="True">
+                        <Setter Property="Background" Value="LightGoldenrodYellow"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Border.Style>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -36,6 +45,4 @@
             </StackPanel>
         </Grid>
     </Border>
-
-
 </UserControl>

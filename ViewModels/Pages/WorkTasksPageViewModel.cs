@@ -15,7 +15,9 @@ namespace To_Do_App.ViewModels.Pages
         public ObservableCollection<WorkTaskViewModel> WorkTasks { get; set; }
         public string NewWorkTaskTitle { get; set; }
         public string NewWorkTaskDescription { get; set; }
-        public DateTime? NewWorkTaskFinishDate { get; set; } // Zmiana na DateTime
+        public DateTime? NewWorkTaskFinishDate { get; set; }
+        public bool NewWorkTaskIsImportant { get; set; } // Nowe pole
+
         public ICommand AddNewTaskCommand { get; set; }
         public ICommand EditTaskCommand { get; set; }
         public ICommand DeleteSelectedTasksCommand { get; set; }
@@ -33,7 +35,6 @@ namespace To_Do_App.ViewModels.Pages
             DeleteSelectedTasksCommand = new RelayCommand(DeleteSelectedTasks);
         }
 
-
         private void LoadTasks()
         {
             var tasks = _context.WorkTasks.ToList();
@@ -42,20 +43,24 @@ namespace To_Do_App.ViewModels.Pages
                 Id = task.Id,
                 Title = task.Title,
                 Description = task.Description,
-                FinishDate = task.FinishDate.HasValue ? task.FinishDate.Value : (DateTime?)null,
+                FinishDate = task.FinishDate,
+                IsImportant = task.IsImportant, // Uwzględnij nowe pole
                 IsSelected = false
-            }));
+            }).OrderByDescending(t => t.IsImportant).ThenBy(t => t.FinishDate)); // Sortowanie
         }
+
         public void LoadTaskToEdit(WorkTaskViewModel task)
         {
             _currentEditingTask = task;
             NewWorkTaskTitle = task.Title;
             NewWorkTaskDescription = task.Description;
             NewWorkTaskFinishDate = task.FinishDate;
+            NewWorkTaskIsImportant = task.IsImportant;
 
             OnPropertyChanged(nameof(NewWorkTaskTitle));
             OnPropertyChanged(nameof(NewWorkTaskDescription));
             OnPropertyChanged(nameof(NewWorkTaskFinishDate));
+            OnPropertyChanged(nameof(NewWorkTaskIsImportant));
         }
 
         private void AddNewTask()
@@ -64,14 +69,16 @@ namespace To_Do_App.ViewModels.Pages
             {
                 Title = NewWorkTaskTitle,
                 Description = NewWorkTaskDescription,
-                FinishDate = NewWorkTaskFinishDate
+                FinishDate = NewWorkTaskFinishDate,
+                IsImportant = NewWorkTaskIsImportant // Nowe pole
             };
 
             var taskEntity = new WorkTask
             {
                 Title = newTask.Title,
                 Description = newTask.Description,
-                FinishDate = newTask.FinishDate
+                FinishDate = newTask.FinishDate,
+                IsImportant = newTask.IsImportant // Nowe pole
             };
 
             _context.WorkTasks.Add(taskEntity);
@@ -79,14 +86,17 @@ namespace To_Do_App.ViewModels.Pages
 
             newTask.Id = taskEntity.Id;
             WorkTasks.Add(newTask);
+            SortTasks(); // Sortowanie po dodaniu nowego zadania
 
             NewWorkTaskTitle = string.Empty;
             NewWorkTaskDescription = string.Empty;
             NewWorkTaskFinishDate = null;
+            NewWorkTaskIsImportant = false;
 
             OnPropertyChanged(nameof(NewWorkTaskTitle));
             OnPropertyChanged(nameof(NewWorkTaskDescription));
             OnPropertyChanged(nameof(NewWorkTaskFinishDate));
+            OnPropertyChanged(nameof(NewWorkTaskIsImportant));
         }
 
         private void EditTask()
@@ -96,31 +106,32 @@ namespace To_Do_App.ViewModels.Pages
             _currentEditingTask.Title = NewWorkTaskTitle;
             _currentEditingTask.Description = NewWorkTaskDescription;
             _currentEditingTask.FinishDate = NewWorkTaskFinishDate;
+            _currentEditingTask.IsImportant = NewWorkTaskIsImportant; // Nowe pole
 
-            // Zaktualizuj zadanie w bazie danych
             var taskEntity = _context.WorkTasks.Find(_currentEditingTask.Id);
             if (taskEntity != null)
             {
                 taskEntity.Title = _currentEditingTask.Title;
                 taskEntity.Description = _currentEditingTask.Description;
                 taskEntity.FinishDate = _currentEditingTask.FinishDate;
+                taskEntity.IsImportant = _currentEditingTask.IsImportant; // Nowe pole
 
                 _context.SaveChanges();
             }
 
-            // Wyczyść bieżące edytowane zadanie
             _currentEditingTask = null;
 
-            // Wyczyść pola
             NewWorkTaskTitle = string.Empty;
             NewWorkTaskDescription = string.Empty;
             NewWorkTaskFinishDate = null;
+            NewWorkTaskIsImportant = false;
 
             OnPropertyChanged(nameof(NewWorkTaskTitle));
             OnPropertyChanged(nameof(NewWorkTaskDescription));
             OnPropertyChanged(nameof(NewWorkTaskFinishDate));
+            OnPropertyChanged(nameof(NewWorkTaskIsImportant));
+            SortTasks(); // Sortowanie po edycji zadania
         }
-
 
         private void DeleteSelectedTasks()
         {
@@ -139,5 +150,16 @@ namespace To_Do_App.ViewModels.Pages
 
             _context.SaveChanges();
         }
+
+        private void SortTasks()
+        {
+            var sortedTasks = WorkTasks.OrderByDescending(t => t.IsImportant).ThenBy(t => t.FinishDate).ToList();
+            WorkTasks.Clear();
+            foreach (var task in sortedTasks)
+            {
+                WorkTasks.Add(task);
+            }
+        }
     }
+
 }

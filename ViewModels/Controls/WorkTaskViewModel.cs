@@ -14,5 +14,6 @@ namespace To_Do_App.ViewModels.Controls
         public string Description { get; set; }
         public DateTime? FinishDate { get; set; }
         public bool IsSelected { get; set; }
+        public bool IsImportant { get; set; }
     }
 }
