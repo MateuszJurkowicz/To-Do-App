@@ -5,7 +5,6 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using To_Do_App.ViewModels;
 using To_Do_App.ViewModels.Controls;
-using To_Do_App.ViewModels.Pages;
 
 namespace To_Do_App.Controls
 {

@@ -12,7 +12,9 @@ namespace To_Do_App.Pages
         {
             InitializeComponent();
 
+
             DataContext = new WorkTasksPageViewModel();
         }
+
     }
 }

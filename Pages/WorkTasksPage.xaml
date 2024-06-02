@@ -6,8 +6,7 @@
       xmlns:local="clr-namespace:To_Do_App.Controls"
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="900"
-      Title="WorkTasksPage"
-      DataContext="{Binding RelativeSource={RelativeSource Self}}">
+      Title="WorkTasksPage">
 
     <Grid Style="{StaticResource DefaultGridStyle}">
 
@@ -32,28 +31,17 @@
              Style="{StaticResource DefaultBoxStyle}" Height="100" TextWrapping="Wrap"/>
 
             <TextBlock Text="Data realizacji zadania"/>
-            <DatePicker SelectedDate="{Binding NewWorkTaskFinishDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                Margin="0 10"/>
+            <DatePicker SelectedDate="{Binding NewWorkTaskFinishDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-            <CheckBox Content="Ważne" IsChecked="{Binding NewWorkTaskIsImportant, Mode=TwoWay}"/>
+            <CheckBox Content="Czy zadanie jest ważne?" IsChecked="{Binding NewWorkTaskIsImportant, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Command="{Binding AddNewTaskCommand}"
-                Style="{StaticResource DefaultButtonStyle}"
-                Content="Dodaj"/>
-                <Button Command="{Binding EditTaskCommand}"
-                Style="{StaticResource DefaultButtonStyle}"
-                Content="Zapisz"
-                Background="Blue"/>
-                <Button Command="{Binding DeleteSelectedTasksCommand}"
-                Style="{StaticResource DefaultButtonStyle}"
-                Content="Usuń"
-                Background="Red"/>
-            </StackPanel>
+            <TextBlock Text="Kategoria zadania"/>
+            <ComboBox SelectedItem="{Binding NewWorkTaskCategory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                      ItemsSource="{Binding Categories}">
+            </ComboBox>
+
+            <Button Command="{Binding AddNewTaskCommand}" Content="Dodaj zadanie" Style="{StaticResource DefaultButtonStyle}"/>
         </StackPanel>
-
-
-
 
         <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Text="To są Twoje zadania" 
@@ -72,5 +60,6 @@
                 </ItemsControl>
             </ScrollViewer>
         </StackPanel>
+
     </Grid>
 </Page>
