@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
              mc:Ignorable="d"
              d:DesignHeight="50" d:DesignWidth="300">
 
@@ -27,12 +28,16 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <CheckBox IsChecked="{Binding IsSelected}" VerticalAlignment="Center" Margin="5"/>
+            <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="5">
+                <fa:ImageAwesome Style="{StaticResource IconStyle}" Width="16" Height="16" VerticalAlignment="Center" Margin="5"/>
+                <CheckBox IsChecked="{Binding IsSelected}" VerticalAlignment="Center" Margin="5"/>
+            </StackPanel>
 
             <StackPanel Grid.Column="1" Margin="5">
                 <TextBlock Text="{Binding Title}" FontWeight="Bold"/>
                 <TextBlock Text="{Binding Description}" TextWrapping="Wrap"/>
                 <TextBlock Text="{Binding FinishDate, StringFormat=dd/MM/yyyy}" FontStyle="Italic"/>
+                <TextBlock Text="{Binding Category}"/>
             </StackPanel>
         </Grid>
     </Border>

@@ -23,7 +23,7 @@ public class WorkTasksPageViewModel : BaseViewModel
 
     private WorkTaskViewModel _currentEditingTask;
     private readonly ToDoAppDbContext _context;
-    public ObservableCollection<string> Categories { get; set; } = new ObservableCollection<string> { "Praca", "Szkoła", "Dom" };
+    public ObservableCollection<string> Categories { get; set; } = new ObservableCollection<string> { "Praca", "Szkoła", "Dom", "Inne"};
 
     public WorkTasksPageViewModel()
     {

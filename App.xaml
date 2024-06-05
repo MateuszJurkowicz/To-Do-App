@@ -4,7 +4,23 @@
              xmlns:local="clr-namespace:To_Do_App"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <ResourceDictionary Source="Styles/DefaultStyles.xaml"/>
-    
+        
+        
+        <ResourceDictionary>
+            
+            <ResourceDictionary.MergedDictionaries>
+
+                <ResourceDictionary Source="Styles/Button.xaml" />
+                <ResourceDictionary Source="Styles/TextBox.xaml" />
+                <ResourceDictionary Source="Styles/TextBlock.xaml" />
+                <ResourceDictionary Source="Styles/Grid.xaml" />
+                <ResourceDictionary Source="Styles/Icon.xaml" />
+
+            </ResourceDictionary.MergedDictionaries>
+
+            <FontFamily x:Key="FontAwesome">/Fonts/fontawesome-webfont.ttf#FontAwesome</FontFamily>
+
+        </ResourceDictionary>
+            
     </Application.Resources>
 </Application>
