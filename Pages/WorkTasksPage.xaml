@@ -29,16 +29,39 @@
              Style="{StaticResource DefaultBoxStyle}" Height="64" TextWrapping="Wrap"/>
             <Label Content="{Binding ElementName=NewWorkTaskDescriptionTextBox, Path=(Validation.Errors)[0].ErrorContent}" Foreground="Red"/>
 
+            <Label Content="Podzadania" Style="{StaticResource DefaultLabelStyle}"/>
+            <ItemsControl ItemsSource="{Binding NewWorkTaskSubTasks}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5"/>
+                            <CheckBox IsChecked="{Binding IsCompleted, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="Ukończone" Margin="5"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <Button Content="Dodaj podzadanie" Command="{Binding AddNewSubTaskCommand}" Style="{StaticResource DefaultButtonStyle}" HorizontalAlignment="Left" Margin="5"/>
+
             <Label Content="Data realizacji zadania" Style="{StaticResource DefaultLabelStyle}"/>
             <DatePicker x:Name="NewWorkTaskFinishDateDatePicker" SelectedDate="{Binding NewWorkTaskFinishDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <Label Content="{Binding ElementName=NewWorkTaskFinishDateDatePicker, Path=(Validation.Errors)[0].ErrorContent}" Foreground="Red"/>
 
-            <CheckBox Content="Ważne" FontFamily="Bahnschrift" IsChecked="{Binding NewWorkTaskIsImportant, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Grid Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-            <Label Content="Kategoria zadania" Style="{StaticResource DefaultLabelStyle}"/>
-            <ComboBox SelectedItem="{Binding NewWorkTaskCategory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                      ItemsSource="{Binding Categories}">
-            </ComboBox>
+                <CheckBox Grid.Column="0" Content="Ważne" VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Bahnschrift" IsChecked="{Binding NewWorkTaskIsImportant, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
+                    <Label Content="Kategoria zadania" Style="{StaticResource DefaultLabelStyle}"/>
+                    <ComboBox Width="80" SelectedItem="{Binding NewWorkTaskCategory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                  ItemsSource="{Binding Categories}">
+                    </ComboBox>
+                </StackPanel>
+            </Grid>
+
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Command="{Binding AddNewTaskCommand}"

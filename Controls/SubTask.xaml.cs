@@ -13,18 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace To_Do_App.Pages
+namespace To_Do_App.Controls
 {
     /// <summary>
-    /// Interaction logic for DetailedWorkTasksPage.xaml
+    /// Interaction logic for SubTask.xaml
     /// </summary>
-    public partial class DetailedWorkTasksPage : Page
+    public partial class SubTask : UserControl
     {
-        public DetailedWorkTasksPage()
+        public SubTask()
         {
             InitializeComponent();
-
-            DataContext = new DetailedWorkTasksPageViewModel();
         }
     }
 }

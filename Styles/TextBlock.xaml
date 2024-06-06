@@ -5,6 +5,12 @@
         <Setter Property="FontFamily" Value="Bahnschrift"/>
         <Setter Property="FontSize" Value="12"/>
         <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="TextDecorations" Value="{x:Null}"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsCompleted}" Value="True">
+                <Setter Property="TextDecorations" Value="Strikethrough"/>
+            </DataTrigger>
+        </Style.Triggers>
     </Style>
 
 </ResourceDictionary>

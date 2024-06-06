@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,5 +18,7 @@ namespace To_Do_App.ViewModels.Controls
         public bool IsSelected { get; set; }
         public bool IsImportant { get; set; }
         public string Category { get; set; }
+        public ObservableCollection<SubTaskViewModel> SubTasks { get; set; } = new ObservableCollection<SubTaskViewModel>();
+
     }
 }

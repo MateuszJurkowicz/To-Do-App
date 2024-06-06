@@ -14,5 +14,6 @@ namespace To_Do_App.Data.Entities
         public DateTime? FinishDate { get; set; }
         public bool IsImportant { get; set; }
         public string Category { get; set; }
+        public ICollection<SubTask> SubTasks { get; set; } = new List<SubTask>();
     }
 }

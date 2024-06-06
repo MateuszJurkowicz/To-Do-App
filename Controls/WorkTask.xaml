@@ -33,7 +33,7 @@
                 <CheckBox IsChecked="{Binding IsSelected}" Margin="5"/>
             </StackPanel>
 
-            <StackPanel Grid.Column="1" Margin="2">
+            <StackPanel Grid.Column="1" Margin="3">
                 <TextBlock Text="{Binding Title}" FontSize="14" FontWeight="Bold" Style="{StaticResource DefaultBlockStyle}"/>
                 <TextBlock Text="{Binding Description}" Style="{StaticResource DefaultBlockStyle}"/>
                 <TextBlock Text="{Binding FinishDate, StringFormat=dd/MM/yyyy}" Style="{StaticResource DefaultBlockStyle}"/>

@@ -4,9 +4,9 @@
     <Style TargetType="{x:Type Button}" x:Key="DefaultButtonStyle">
         <Setter Property="Background" Value="DarkSeaGreen"/>
         <Setter Property="Foreground" Value="White"/>
-        <Setter Property="Padding" Value="5"/>
-        <Setter Property="FontSize" Value="14"/>
-        <Setter Property="Margin" Value="4"/>
+        <Setter Property="Padding" Value="4"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Margin" Value="4 10 4 4"/>
         <Setter Property="FontFamily" Value="Bahnschrift"/>
         <Setter Property="Cursor" Value="Hand"/>
     </Style>

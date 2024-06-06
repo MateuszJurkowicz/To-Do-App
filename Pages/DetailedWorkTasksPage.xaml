@@ -3,12 +3,25 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:To_Do_App.Pages"
+      xmlns:local="clr-namespace:To_Do_App.Controls"
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="1000"
       Title="DetailedWorkTasksPage">
 
-    <Grid>
-        
+    <Grid Style="{StaticResource DefaultGridStyle}">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Label Content="To są szczegóły Twoich zadań" 
+                   FontSize="24" HorizontalAlignment="Center" Foreground="White"
+                   Style="{StaticResource DefaultLabelStyle}"/>
+            <ScrollViewer Width="600" Height="400">
+                <ItemsControl ItemsSource="{Binding WorkTasks}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <local:WorkTaskAndSubTask/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </StackPanel>
     </Grid>
 </Page>
