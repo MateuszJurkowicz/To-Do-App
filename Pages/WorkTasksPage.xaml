@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:To_Do_App.Controls"
       mc:Ignorable="d" 
-      d:DesignHeight="600" d:DesignWidth="900"
+      d:DesignHeight="600" d:DesignWidth="850"
       Title="WorkTasksPage">
 
     <Grid Style="{StaticResource DefaultGridStyle}">
