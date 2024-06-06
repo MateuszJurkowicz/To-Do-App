@@ -2,9 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Style TargetType="{x:Type TextBox}" x:Key="DefaultBoxStyle">
-        <Setter Property="Padding" Value="10"/>
-        <Setter Property="Margin" Value="0 10"/>
-        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Padding" Value="4"/>
+        <Setter Property="FontSize" Value="12"/>
         <Setter Property="Width" Value="300"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="BorderBrush" Value="#BDBDBD"/>

@@ -20,24 +20,24 @@
         </Storyboard>
     </UserControl.Resources>
 
-    <Border x:Name="taskBorder" BorderBrush="LightGray" BorderThickness="1" CornerRadius="5" Margin="5" Background="Transparent"
+    <Border x:Name="taskBorder" BorderBrush="LightGray" BorderThickness="0.5" CornerRadius="2" Margin="5" Background="Transparent"
             MouseEnter="Border_MouseEnter" MouseLeave="Border_MouseLeave" MouseLeftButtonDown="Border_MouseLeftButtonDown">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="32"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="5">
-                <fa:ImageAwesome Style="{StaticResource IconStyle}" Width="16" Height="16" VerticalAlignment="Center" Margin="5"/>
-                <CheckBox IsChecked="{Binding IsSelected}" VerticalAlignment="Center" Margin="5"/>
+            <StackPanel Orientation="Vertical" Margin="4 2 2 2">
+                <fa:ImageAwesome Style="{StaticResource IconStyle}" Width="16" Height="16" Margin="5"/>
+                <CheckBox IsChecked="{Binding IsSelected}" Margin="5"/>
             </StackPanel>
 
-            <StackPanel Grid.Column="1" Margin="5">
-                <TextBlock Text="{Binding Title}" FontWeight="Bold"/>
-                <TextBlock Text="{Binding Description}" TextWrapping="Wrap"/>
-                <TextBlock Text="{Binding FinishDate, StringFormat=dd/MM/yyyy}" FontStyle="Italic"/>
-                <TextBlock Text="{Binding Category}"/>
+            <StackPanel Grid.Column="1" Margin="2">
+                <TextBlock Text="{Binding Title}" FontSize="14" FontWeight="Bold" Style="{StaticResource DefaultBlockStyle}"/>
+                <TextBlock Text="{Binding Description}" Style="{StaticResource DefaultBlockStyle}"/>
+                <TextBlock Text="{Binding FinishDate, StringFormat=dd/MM/yyyy}" Style="{StaticResource DefaultBlockStyle}"/>
+                <TextBlock Text="{Binding Category}" Style="{StaticResource DefaultBlockStyle}"/>
             </StackPanel>
         </Grid>
     </Border>

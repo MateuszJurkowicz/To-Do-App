@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:To_Do_App.Controls"
       mc:Ignorable="d" 
-      d:DesignHeight="600" d:DesignWidth="850"
+      d:DesignHeight="600" d:DesignWidth="1000"
       Title="WorkTasksPage">
 
     <Grid Style="{StaticResource DefaultGridStyle}">
@@ -17,28 +17,25 @@
 
         <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Label Content="Twórz i modyfikuj zadania" 
-               FontSize="24" 
-               FontWeight="Bold" 
-               Foreground="White" 
-               Margin="0,20" 
-               HorizontalAlignment="Center"/>
-            <Label Content="Tytuł zadania"/>
+               FontSize="20" Foreground="White" 
+               HorizontalAlignment="Center" Style="{StaticResource DefaultLabelStyle}"/>
+            <Label Content="Tytuł zadania" Style="{StaticResource DefaultLabelStyle}"/>
             <TextBox x:Name="NewWorkTaskTitleTextBox" Text="{Binding NewWorkTaskTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
              Style="{StaticResource DefaultBoxStyle}" />
             <Label Content="{Binding ElementName=NewWorkTaskTitleTextBox, Path=(Validation.Errors)[0].ErrorContent}" Foreground="Red"/>
 
-            <Label Content="Opis zadania"/>
+            <Label Content="Opis zadania" Style="{StaticResource DefaultLabelStyle}"/>
             <TextBox x:Name="NewWorkTaskDescriptionTextBox" Text="{Binding NewWorkTaskDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-             Style="{StaticResource DefaultBoxStyle}" Height="100" TextWrapping="Wrap"/>
+             Style="{StaticResource DefaultBoxStyle}" Height="64" TextWrapping="Wrap"/>
             <Label Content="{Binding ElementName=NewWorkTaskDescriptionTextBox, Path=(Validation.Errors)[0].ErrorContent}" Foreground="Red"/>
 
-            <Label Content="Data realizacji zadania"/>
+            <Label Content="Data realizacji zadania" Style="{StaticResource DefaultLabelStyle}"/>
             <DatePicker x:Name="NewWorkTaskFinishDateDatePicker" SelectedDate="{Binding NewWorkTaskFinishDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <Label Content="{Binding ElementName=NewWorkTaskFinishDateDatePicker, Path=(Validation.Errors)[0].ErrorContent}" Foreground="Red"/>
 
-            <CheckBox Content="Ważne" IsChecked="{Binding NewWorkTaskIsImportant, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <CheckBox Content="Ważne" FontFamily="Bahnschrift" IsChecked="{Binding NewWorkTaskIsImportant, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-            <Label Content="Kategoria zadania"/>
+            <Label Content="Kategoria zadania" Style="{StaticResource DefaultLabelStyle}"/>
             <ComboBox SelectedItem="{Binding NewWorkTaskCategory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                       ItemsSource="{Binding Categories}">
             </ComboBox>
@@ -59,12 +56,9 @@
         </StackPanel>
 
         <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Text="To są Twoje zadania" 
-                       FontSize="24" 
-                       FontWeight="Bold" 
-                       Foreground="White" 
-                       Margin="0,20" 
-                       HorizontalAlignment="Center"/>
+            <Label Content="To są Twoje zadania" 
+                       FontSize="20" HorizontalAlignment="Center" Foreground="White"
+                       Style="{StaticResource DefaultLabelStyle}"/>
             <ScrollViewer Width="400" Height="400">
                 <ItemsControl ItemsSource="{Binding WorkTasks}">
                     <ItemsControl.ItemTemplate>

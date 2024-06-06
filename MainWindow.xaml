@@ -9,12 +9,12 @@
         MinHeight="600"
         MinWidth="850"
         MaxHeight="700"
-        MaxWidth="1000"
-        Title="To Do App" Height="600" Width="900">
+        MaxWidth="1100"
+        Title="To Do App" Height="600" Width="1000">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="64"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="64" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         
         <ListBox Grid.Column="0" SelectionMode="Single" SelectionChanged="sidebar_SelectionChanged"  x:Name="sidebar" Margin="0,50,0,50" BorderThickness="0">
