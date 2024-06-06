@@ -16,26 +16,29 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Text="Twórz i modyfikuj zadania" 
+            <Label Content="Twórz i modyfikuj zadania" 
                FontSize="24" 
                FontWeight="Bold" 
                Foreground="White" 
                Margin="0,20" 
                HorizontalAlignment="Center"/>
-            <TextBlock Text="Tytuł zadania"/>
-            <TextBox Text="{Binding NewWorkTaskTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-             Style="{StaticResource DefaultBoxStyle}"/>
+            <Label Content="Tytuł zadania"/>
+            <TextBox x:Name="NewWorkTaskTitleTextBox" Text="{Binding NewWorkTaskTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+             Style="{StaticResource DefaultBoxStyle}" />
+            <Label Content="{Binding ElementName=NewWorkTaskTitleTextBox, Path=(Validation.Errors)[0].ErrorContent}" Foreground="Red"/>
 
-            <TextBlock Text="Opis zadania"/>
-            <TextBox Text="{Binding NewWorkTaskDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            <Label Content="Opis zadania"/>
+            <TextBox x:Name="NewWorkTaskDescriptionTextBox" Text="{Binding NewWorkTaskDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
              Style="{StaticResource DefaultBoxStyle}" Height="100" TextWrapping="Wrap"/>
+            <Label Content="{Binding ElementName=NewWorkTaskDescriptionTextBox, Path=(Validation.Errors)[0].ErrorContent}" Foreground="Red"/>
 
-            <TextBlock Text="Data realizacji zadania"/>
-            <DatePicker SelectedDate="{Binding NewWorkTaskFinishDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="Data realizacji zadania"/>
+            <DatePicker x:Name="NewWorkTaskFinishDateDatePicker" SelectedDate="{Binding NewWorkTaskFinishDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="{Binding ElementName=NewWorkTaskFinishDateDatePicker, Path=(Validation.Errors)[0].ErrorContent}" Foreground="Red"/>
 
             <CheckBox Content="Ważne" IsChecked="{Binding NewWorkTaskIsImportant, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-            <TextBlock Text="Kategoria zadania"/>
+            <Label Content="Kategoria zadania"/>
             <ComboBox SelectedItem="{Binding NewWorkTaskCategory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                       ItemsSource="{Binding Categories}">
             </ComboBox>

@@ -13,7 +13,7 @@ namespace To_Do_App.Helpers
         public event EventHandler? CanExecuteChanged;
         public RelayCommand(Action action)
         {
-                mAction = action;
+            mAction = action;
         }
         public bool CanExecute(object? parameter)
         {

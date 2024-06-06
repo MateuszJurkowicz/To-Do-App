@@ -1,38 +1,111 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Windows.Input;
 using To_Do_App.Data;
 using To_Do_App.Data.Entities;
 using To_Do_App.Helpers;
-using To_Do_App.ViewModels.Pages;
 using To_Do_App.ViewModels.Controls;
-
+using To_Do_App.ViewModels.Pages;
 public class WorkTasksPageViewModel : BaseViewModel
 {
     public ObservableCollection<WorkTaskViewModel> WorkTasks { get; set; }
-    public string NewWorkTaskTitle { get; set; }
-    public string NewWorkTaskDescription { get; set; }
-    public DateTime? NewWorkTaskFinishDate { get; set; }
-    public bool NewWorkTaskIsImportant { get; set; }
-    public string NewWorkTaskCategory { get; set; } // Nowa właściwość
 
-    public ICommand AddNewTaskCommand { get; set; }
-    public ICommand EditTaskCommand { get; set; }
+    private string _newWorkTaskTitle;
+
+    [Required(ErrorMessage = "Tytuł nie może być pusty!")]
+    [MinLength(5, ErrorMessage = "Tytuł musi mieć minimum 5 znaków!")]
+    public string NewWorkTaskTitle
+    {
+        get { return _newWorkTaskTitle; }
+        set
+        {
+            _newWorkTaskTitle = value;
+            Validate(nameof(NewWorkTaskTitle), value);
+            AddNewTaskCommand.RaiseCanExecuteChanged();
+            EditTaskCommand.RaiseCanExecuteChanged();
+        }
+    }
+
+    private string _newWorkTaskDescription;
+
+    [Required(ErrorMessage = "Opis nie może być pusty!")]
+    [MaxLength(200, ErrorMessage = "Opis nie może mieć więcej niż 200 znaków!")]
+    public string NewWorkTaskDescription
+    {
+        get { return _newWorkTaskDescription; }
+        set
+        {
+            _newWorkTaskDescription = value;
+            Validate(nameof(NewWorkTaskDescription), value);
+            AddNewTaskCommand.RaiseCanExecuteChanged();
+            EditTaskCommand.RaiseCanExecuteChanged();
+        }
+    }
+
+    private DateTime? _newWorkTaskFinishDate;
+
+    [CustomValidation(typeof(WorkTasksPageViewModel), nameof(ValidateFinishDate))]
+    public DateTime? NewWorkTaskFinishDate
+    {
+        get { return _newWorkTaskFinishDate; }
+        set
+        {
+            _newWorkTaskFinishDate = value;
+            Validate(nameof(NewWorkTaskFinishDate), value);
+            AddNewTaskCommand.RaiseCanExecuteChanged();
+            EditTaskCommand.RaiseCanExecuteChanged();
+        }
+    }
+
+    public bool NewWorkTaskIsImportant { get; set; }
+    public string NewWorkTaskCategory { get; set; }
+    public ActionCommand AddNewTaskCommand { get; set; }
+    public ActionCommand EditTaskCommand { get; set; }
     public ICommand DeleteSelectedTasksCommand { get; set; }
 
     private WorkTaskViewModel _currentEditingTask;
     private readonly ToDoAppDbContext _context;
-    public ObservableCollection<string> Categories { get; set; } = new ObservableCollection<string> { "Praca", "Szkoła", "Dom", "Inne"};
+    public ObservableCollection<string> Categories { get; set; } = new ObservableCollection<string> { "Praca", "Szkoła", "Dom", "Inne" };
 
     public WorkTasksPageViewModel()
     {
         _context = new ToDoAppDbContext();
         LoadTasks();
 
-        AddNewTaskCommand = new RelayCommand(AddNewTask);
-        EditTaskCommand = new RelayCommand(EditTask);
+        AddNewTaskCommand = new ActionCommand(Submit, CanSubmit);
+        EditTaskCommand = new ActionCommand(Edit, CanEdit);
         DeleteSelectedTasksCommand = new RelayCommand(DeleteSelectedTasks);
+        NewWorkTaskCategory = Categories[3];
+    }
+
+    public static ValidationResult ValidateFinishDate(DateTime? finishDate, ValidationContext context)
+    {
+        if (finishDate.HasValue && finishDate.Value <= DateTime.Now)
+        {
+            return new ValidationResult("Data realizacji już minęła!");
+        }
+
+        return ValidationResult.Success;
+    }
+
+    private bool CanEdit(object obj)
+    {
+        return Validator.TryValidateObject(this, new ValidationContext(this), null);
+    }
+
+    private void Edit(object obj)
+    {
+        EditTask();
+    }
+
+    private bool CanSubmit(object obj)
+    {
+        return Validator.TryValidateObject(this, new ValidationContext(this), null);
+    }
+
+    private void Submit(object obj)
+    {
+        AddNewTask();
     }
 
     private void LoadTasks()
@@ -59,13 +132,13 @@ public class WorkTasksPageViewModel : BaseViewModel
         NewWorkTaskDescription = task.Description;
         NewWorkTaskFinishDate = task.FinishDate;
         NewWorkTaskIsImportant = task.IsImportant;
-        NewWorkTaskCategory = task.Category;  // Nowa właściwość
+        NewWorkTaskCategory = task.Category; 
 
         OnPropertyChanged(nameof(NewWorkTaskTitle));
         OnPropertyChanged(nameof(NewWorkTaskDescription));
         OnPropertyChanged(nameof(NewWorkTaskFinishDate));
         OnPropertyChanged(nameof(NewWorkTaskIsImportant));
-        OnPropertyChanged(nameof(NewWorkTaskCategory));  // Nowa właściwość
+        OnPropertyChanged(nameof(NewWorkTaskCategory));  
     }
 
     private void AddNewTask()
@@ -76,7 +149,7 @@ public class WorkTasksPageViewModel : BaseViewModel
             Description = NewWorkTaskDescription,
             FinishDate = NewWorkTaskFinishDate,
             IsImportant = NewWorkTaskIsImportant,
-            Category = NewWorkTaskCategory  // Nowa właściwość
+            Category = NewWorkTaskCategory  
         };
 
         var taskEntity = new WorkTask
@@ -85,7 +158,7 @@ public class WorkTasksPageViewModel : BaseViewModel
             Description = newTask.Description,
             FinishDate = newTask.FinishDate,
             IsImportant = newTask.IsImportant,
-            Category = newTask.Category  // Nowa właściwość
+            Category = newTask.Category  
         };
 
         _context.WorkTasks.Add(taskEntity);
@@ -99,13 +172,13 @@ public class WorkTasksPageViewModel : BaseViewModel
         NewWorkTaskDescription = string.Empty;
         NewWorkTaskFinishDate = null;
         NewWorkTaskIsImportant = false;
-        NewWorkTaskCategory = null;  // Nowa właściwość
+        NewWorkTaskCategory = Categories[3];  
 
         OnPropertyChanged(nameof(NewWorkTaskTitle));
         OnPropertyChanged(nameof(NewWorkTaskDescription));
         OnPropertyChanged(nameof(NewWorkTaskFinishDate));
         OnPropertyChanged(nameof(NewWorkTaskIsImportant));
-        OnPropertyChanged(nameof(NewWorkTaskCategory));  // Nowa właściwość
+        OnPropertyChanged(nameof(NewWorkTaskCategory));  
     }
 
     private void EditTask()
@@ -116,7 +189,7 @@ public class WorkTasksPageViewModel : BaseViewModel
         _currentEditingTask.Description = NewWorkTaskDescription;
         _currentEditingTask.FinishDate = NewWorkTaskFinishDate;
         _currentEditingTask.IsImportant = NewWorkTaskIsImportant;
-        _currentEditingTask.Category = NewWorkTaskCategory;  // Nowa właściwość
+        _currentEditingTask.Category = NewWorkTaskCategory; 
 
         var taskEntity = _context.WorkTasks.Find(_currentEditingTask.Id);
         if (taskEntity != null)
@@ -125,7 +198,7 @@ public class WorkTasksPageViewModel : BaseViewModel
             taskEntity.Description = _currentEditingTask.Description;
             taskEntity.FinishDate = _currentEditingTask.FinishDate;
             taskEntity.IsImportant = _currentEditingTask.IsImportant;
-            taskEntity.Category = _currentEditingTask.Category;  // Nowa właściwość
+            taskEntity.Category = _currentEditingTask.Category;  
 
             _context.SaveChanges();
         }
@@ -136,13 +209,13 @@ public class WorkTasksPageViewModel : BaseViewModel
         NewWorkTaskDescription = string.Empty;
         NewWorkTaskFinishDate = null;
         NewWorkTaskIsImportant = false;
-        NewWorkTaskCategory = null;  // Nowa właściwość
+        NewWorkTaskCategory = null;  
 
         OnPropertyChanged(nameof(NewWorkTaskTitle));
         OnPropertyChanged(nameof(NewWorkTaskDescription));
         OnPropertyChanged(nameof(NewWorkTaskFinishDate));
         OnPropertyChanged(nameof(NewWorkTaskIsImportant));
-        OnPropertyChanged(nameof(NewWorkTaskCategory));  // Nowa właściwość
+        OnPropertyChanged(nameof(NewWorkTaskCategory));  
         SortTasks();
     }
 
